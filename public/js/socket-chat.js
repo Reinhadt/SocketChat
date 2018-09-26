@@ -2,13 +2,14 @@ var socket = io()
 
 var param = new URLSearchParams(window.location.search)
 
-if(!param.has('nombre')){
+if(!param.has('nombre') || !param.has('sala') ){
     window.location = 'index.html'
-    throw new Error('El nombre es necesario')
+    throw new Error('El nombre y/o la sala son necesarios')
 }
 
 var usuario = {
-    nombre : param.get('nombre')
+    nombre : param.get('nombre'),
+    sala:  param.get('sala')
 }
 
 socket.on('connect', function(){
@@ -41,4 +42,9 @@ socket.on('crearMensaje', function(mensaje){
 //Escuchar cuando las personas entraan o salen
 socket.on('listaPersonas', function(mensaje){
     console.log('Servidor mandó: ', mensaje)
+})
+
+//Mensajes privados
+socket.on('mensajePrivado', function(mensaje){
+
 })
